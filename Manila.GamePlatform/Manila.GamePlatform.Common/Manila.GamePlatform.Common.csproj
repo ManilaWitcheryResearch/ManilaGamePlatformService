@@ -45,11 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Models\BaseModels.cs" />
     <Compile Include="Models\RoomModel.cs" />
+    <Compile Include="Models\TokenModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

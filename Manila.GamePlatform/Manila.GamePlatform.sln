@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manila.GamePlatform.Common"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manila.GamePlatform.WebService", "Manila.GamePlatform.WebService\Manila.GamePlatform.WebService.csproj", "{5E7A37EE-7066-4717-AC88-2620A98443A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Manila.GamePlatform.RoomService", "Manila.GamePlatform.RoomService\Manila.GamePlatform.RoomService.csproj", "{D5E03D4D-0373-434F-AF9B-DC8791CF8F58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5E7A37EE-7066-4717-AC88-2620A98443A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E7A37EE-7066-4717-AC88-2620A98443A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E7A37EE-7066-4717-AC88-2620A98443A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5E03D4D-0373-434F-AF9B-DC8791CF8F58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5E03D4D-0373-434F-AF9B-DC8791CF8F58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5E03D4D-0373-434F-AF9B-DC8791CF8F58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5E03D4D-0373-434F-AF9B-DC8791CF8F58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

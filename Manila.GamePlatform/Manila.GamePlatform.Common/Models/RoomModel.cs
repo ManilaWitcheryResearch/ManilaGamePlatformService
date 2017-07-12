@@ -7,6 +7,12 @@
     using System.Threading.Tasks;
     using System.Runtime.Serialization;
 
+    public enum RoomState
+    {
+        Open = 0,
+        InGame = 1,
+    }
+
     public class RoomModel
     {
         public string RoomId { get; set; }
@@ -17,6 +23,7 @@
         public int RoundWaitTime { get; set; }
         public int PlayerUpperBound { get; set; }
         public int PlayerLowerBound { get; set; }
+        public RoomState RoomState { get; set; }
 
         // TODO: implement a convert to public version model (in da)
     }
@@ -40,10 +47,7 @@
         public int PlayerUpperBound { get; set; }
         [DataMember(Name = "playerLowerBound")]
         public int PlayerLowerBound { get; set; }
-        // Common
-        [DataMember(Name = "result")]
-        public string Result { get; set; }
-        [DataMember(Name = "errormsg")]
-        public string ErrorMsg { get; set; }
+        [DataMember(Name = "roomState")]
+        public int RoomState { get; set; }
     }
 }
