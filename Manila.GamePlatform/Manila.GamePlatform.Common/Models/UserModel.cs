@@ -24,7 +24,7 @@
     {
         [DataMember(Name = "userId")]
         public string UserId { get; set; }
-        [DataMember(Name = "DisplayName")]
+        [DataMember(Name = "displayName")]
         public string DisplayName { get; set; }
     }
 }

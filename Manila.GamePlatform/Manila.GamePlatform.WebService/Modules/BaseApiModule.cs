@@ -10,7 +10,7 @@
         protected object successResponse = new { result = "success", errormsg = "" };
         protected object badRequestResponse = new { result = "failed", errormsg = "bad request" };
         protected object internalErrorResponse = new { result = "failed", errormsg = "internal error" };
-        protected string RequestJson = "{}";
+        protected string RequestJsonText = "{}";
 
         private Response BeforeApiRequest(NancyContext ctx)
         {
@@ -21,12 +21,12 @@
                 var data = new byte[length];
                 id.Read(data, 0, (int)length);
                 var body = System.Text.Encoding.Default.GetString(data);
-                //AirFrog.LoggerMan.Log(body);
-                RequestJson = body;
+                GamePlatform.Log.Log(body);
+                RequestJsonText = body;
             }
             catch (Exception e)
             {
-                //AirFrog.LoggerMan.LogErr(e.ToString());
+                GamePlatform.Log.LogErr(e.ToString());
                 return Response.AsJson(badRequestResponse, Nancy.HttpStatusCode.BadRequest);
             }
             return null;
@@ -37,7 +37,7 @@
         }
         private Response OnApiRequestError(NancyContext ctx, Exception ex)
         {
-            //AirFrog.LoggerMan.LogErr(ex.ToString());
+            GamePlatform.Log.LogErr(ex.ToString());
             return Response.AsJson(internalErrorResponse, Nancy.HttpStatusCode.InternalServerError);
         }
         public BaseApiModule()

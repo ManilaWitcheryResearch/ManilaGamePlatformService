@@ -12,6 +12,8 @@ namespace Manila.GamePlatform.Common
         private Dictionary<string, UserModel> UserCollection { get; set; }
         private Dictionary<string, RoomModel> RoomCollection { get; set; }
         private Dictionary<string, TokenModel> TokenCollection { get; set; }
+
+        private ILogger Log;
         public DataAccess(string remoteDbPath = null)
         {
             try
@@ -19,7 +21,7 @@ namespace Manila.GamePlatform.Common
                 UserCollection = new Dictionary<string, UserModel>();
                 RoomCollection = new Dictionary<string, RoomModel>();
                 TokenCollection = new Dictionary<string, TokenModel>();
-                ;
+                Log = new Logger("tmp");
             }
             catch (Exception e)
             {
@@ -64,40 +66,87 @@ namespace Manila.GamePlatform.Common
             return new KeyValuePair<string, UserModel>("Success", userModel);
         }
 
-        public KeyValuePair<string, string> CloseUserSession(string token)
+        public string CloseUserSession(string token)
         {
             // call by Web
-            // rm token + rm user
-            // if oko
-            return new KeyValuePair<string, string>("Success", "userid");
+            
+            var res = ValidateToken(token);
+            if (res.Key == "Pass")
+            {
+                TokenCollection.Remove(token);
+                UserCollection.Remove(res.Value.UserId);
+            }
+            return "Success";
         }
 
         public KeyValuePair<string, UserModel> ValidateToken(string token, string permissionCode = null)
         {
-            return new KeyValuePair<string, UserModel>("Pass", new UserModel());
+            if (TokenCollection.ContainsKey(token))
+            {
+                var user = UserCollection[TokenCollection[token].UserId];
+                if (string.IsNullOrEmpty(permissionCode))
+                {
+                    return new KeyValuePair<string, UserModel>("Pass", user);
+                }
+                else
+                {
+                    if (TokenCollection[token].PermissionList.Contains(permissionCode))
+                    {
+                        return new KeyValuePair<string, UserModel>("Pass", user);
+                    }
+                }
+            }
+            return new KeyValuePair<string, UserModel>("Failed", null);
         }
 
         public string UpdateUserState(string userId, UserState newState)
         {
-            // call by Web
-            // rm token + rm user
-            // if oko
-            return "";
+            // call by room
+
+            if (UserCollection.ContainsKey(userId))
+            {
+                UserCollection[userId].UserState = newState;
+                return "Success";
+            }
+            return "Failed";
         }
 
-        public UserModel GetUserById()
+        public UserModel GetUserById(string userId)
         {
-            return new UserModel();
+            if (UserCollection.ContainsKey(userId))
+            {
+                return UserCollection[userId];
+            }
+            return null;
         }
 
         public UserModel GetUserByUniqueId()
         {
             throw new NotImplementedException();
-            return new UserModel();
         }
         #endregion UserSessionCRUD
 
         #region RoomCRUD
+        public List<PublicRoomModel> RefreshAllRoomInfo()
+        {
+            var result = RoomCollection.Values.Select(x => new PublicRoomModel()
+            {
+                RoomId = x.RoomId,
+                RoomName = x.RoomName,
+                GameType = x.GameType,
+                PlayerLowerBound = x.PlayerLowerBound,
+                PlayerUpperBound = x.PlayerUpperBound,
+                HavePassword = (!string.IsNullOrEmpty(x.Password)),
+                RoundWaitTime = x.RoundWaitTime,
+                RoomState = (int)x.RoomState,
+                PlayerList = x.PlayerList.Select<string, PublicPlayerModel>(p => new PublicPlayerModel()
+                {
+                    UserId = p,
+                    DisplayName = UserCollection[p].DisplayName,
+                }).ToList(),
+            }).ToList();
+            return result;
+        }
         #endregion RoomCRUD
     }
 }

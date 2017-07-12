@@ -68,8 +68,11 @@
   <ItemGroup>
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="GamePlatform.cs" />
+    <Compile Include="Models\UserIdentity.cs" />
+    <Compile Include="Modules\AuthApiModule.cs" />
     <Compile Include="Modules\BaseApiModule.cs" />
     <Compile Include="Modules\IndexModule.cs" />
+    <Compile Include="Modules\UserApiModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils.cs" />
@@ -83,13 +86,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Content\nancy-logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Manila.GamePlatform.Common\Manila.GamePlatform.Common.csproj">
+      <Project>{2cd27935-451e-4d8e-987e-7f18edf7bdd7}</Project>
+      <Name>Manila.GamePlatform.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Manila.GamePlatform.RoomService\Manila.GamePlatform.RoomService.csproj">
+      <Project>{d5e03d4d-0373-434f-af9b-dc8791cf8f58}</Project>
+      <Name>Manila.GamePlatform.RoomService</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
