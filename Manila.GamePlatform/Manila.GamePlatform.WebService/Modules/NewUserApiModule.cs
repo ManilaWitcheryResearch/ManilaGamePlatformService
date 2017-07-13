@@ -1,42 +1,12 @@
-﻿/*            try
-            {
-                requestChatModel = JsonConvert.DeserializeObject<WebChatModel>(RequestJson);
-                AirFrog.LoggerMan.Log(JsonConvert.SerializeObject(requestChatModel));
-            }
-            catch (Exception e)
-            {
-                AirFrog.LoggerMan.LogErr(e.ToString());
-                return Response.AsJson(badRequestResponse, Nancy.HttpStatusCode.BadRequest);
-            }
-            return null;
-            
-     
-     
-                 Post["/api/mcs/chatmsg"] = parameters =>
-            {
-                AirFrog.EventHub.Emit("Chat.Public.FromMcs.Group", new StdChatModel {
-                    Source = requestChatModel.ServerId,
-                    DisplayName = requestChatModel.PlayerName,
-                    Text = requestChatModel.Text
-                });
-
-                return Response.AsJson(successResponse);
-            };
-            */
-
-namespace Manila.GamePlatform.WebService.Modules
+﻿namespace Manila.GamePlatform.WebService.Modules
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Nancy;
     using Newtonsoft.Json;
-
-    class UserApiModule : BaseApiModule
+    using Nancy;
+    using Manila.GamePlatform.WebService.Models;
+    public class NewUserApiModule : BaseApiModule
     {
-        public UserApiModule()
+        public NewUserApiModule()
         {
             Post["/api/user/signin"] = parameters =>
             {
