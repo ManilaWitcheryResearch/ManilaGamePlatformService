@@ -46,14 +46,14 @@
             After += AfterApiResponse;
             OnError += OnApiRequestError;
 
-            //Get["/api/version"] = parameters =>
-            //{
-            //    var request = JsonConvert.DeserializeObject<ChatModel>(RequestJson);
+            Get["/api/version"] = parameters =>
+            {
+                var request = JsonConvert.DeserializeObject<dynamic>(RequestJsonText);
 
-            //    AirFrog.LoggerMan.Log(JsonConvert.SerializeObject(request));
+                GamePlatform.Log.Log(JsonConvert.SerializeObject(request));
 
-            //    return Response.AsJson(successResponse);
-            //};
+                return Response.AsJson(successResponse);
+            };
         }
     }
 }

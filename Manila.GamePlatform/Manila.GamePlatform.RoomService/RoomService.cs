@@ -8,9 +8,36 @@ namespace Manila.GamePlatform.RoomService
 {
     using WebSocketSharp;
     using WebSocketSharp.Server;
-    class RoomService
+
+    public class RoomService
     {
-        
+        private string listening;
+        private bool running = false;
+        private WebSocketServer wssv = null;
+
+        public RoomService(string endpoint)
+        {
+            listening = endpoint;
+        }
+
+        public void Start()
+        {
+            if (running)
+            {
+                return;
+            }
+            wssv = new WebSocketServer(listening);
+            wssv.Start();
+        }
+
+        public void Stop()
+        {
+            if (running)
+            {
+                wssv.Stop();
+                wssv = null;
+            }
+        }
     }
 
     public class Chat : WebSocketBehavior
