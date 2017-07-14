@@ -8,16 +8,19 @@ namespace Manila.GamePlatform.RoomService
 {
     using WebSocketSharp;
     using WebSocketSharp.Server;
+    using Manila.GamePlatform.Common;
 
     public class RoomService
     {
         private string listening;
         private bool running = false;
         private WebSocketServer wssv = null;
+        private DataAccess dataAccess = null;
 
-        public RoomService(string endpoint)
+        public RoomService(string endpoint, DataAccess da)
         {
             listening = endpoint;
+            dataAccess = da;
         }
 
         public void Start()

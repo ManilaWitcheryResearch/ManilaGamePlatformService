@@ -24,7 +24,7 @@
             var uri2 = "ws://0.0.0.0:8888";
             Log = new Logger(String.Format("WebService_{0}.log", String.Format("{0:yyyy'-'MM'-'dd'_'HH'-'mm'-'ss}", DateTime.UtcNow)));
             host = new NancyHost(uri1);
-            wshost = new RoomService(uri2);
+            wshost = new RoomService(uri2, GamePlatform.DataAccess);
             DataAccess = new DataAccess();
             Inited = true;
             Log.Log("Successfully inited.");
