@@ -58,6 +58,12 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Manila.GamePlatform.Common\Manila.GamePlatform.Common.csproj">
+      <Project>{2cd27935-451e-4d8e-987e-7f18edf7bdd7}</Project>
+      <Name>Manila.GamePlatform.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
