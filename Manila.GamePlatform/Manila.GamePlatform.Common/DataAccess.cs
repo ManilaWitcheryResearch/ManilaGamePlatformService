@@ -134,6 +134,7 @@ namespace Manila.GamePlatform.Common
                 RoomId = x.RoomId,
                 RoomName = x.RoomName,
                 GameType = x.GameType,
+                PlayerCount = x.PlayerCount,
                 PlayerLowerBound = x.PlayerLowerBound,
                 PlayerUpperBound = x.PlayerUpperBound,
                 HavePassword = (!string.IsNullOrEmpty(x.Password)),
@@ -146,6 +147,95 @@ namespace Manila.GamePlatform.Common
                 }).ToList(),
             }).ToList();
             return result;
+        }
+
+        public string CreateRoom(string owner, string name = "New Game", string passwd = null, int playerCount = 8, string gameType = "Chat")
+        {
+            try
+            {
+                if (GetUserById(owner).UserState == UserState.InHall)
+                {
+                    var newRoom = new RoomModel()
+                    {
+                        OwnerId = owner,
+                        RoomId = Guid.NewGuid().ToString(),
+                        RoomName = name,
+                        GameType = gameType,
+                        PlayerCount = playerCount,
+                        PlayerList = new List<string>(8),
+                        Password = passwd,
+                        RoundWaitTime = 30,
+                        PlayerUpperBound = 8,
+                        PlayerLowerBound = 2,
+                        RoomState = RoomState.PreOpen
+                    };
+                    RoomCollection.Add(newRoom.RoomId, newRoom);
+                    if (RequestRoomPermission(owner, newRoom.RoomId))
+                    {
+                        return newRoom.RoomId;
+                    }
+                    else
+                    {
+                        CloseRoom(newRoom.RoomId);
+                    }
+                    
+                }
+                return null;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
+            
+        }
+
+        public bool RequestRoomPermission(string userId, string roomId, string passwd = "")
+        {
+            try
+            {
+                if (GetUserById(userId).UserState == UserState.InHall)
+                {
+                    if (string.IsNullOrEmpty(RoomCollection[roomId].Password))
+                    {
+                        TokenCollection[GetUserById(userId).Token].PermissionList.Add(roomId);
+                        return true;
+                    }
+                    else if (RoomCollection[roomId].Password == passwd)
+                    {
+                        TokenCollection[GetUserById(userId).Token].PermissionList.Add(roomId);
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+        public void CloseRoom(string roomId)
+        {
+            try
+            {
+                foreach (var xid in RoomCollection[roomId].PlayerList)
+                {
+                    if (!xid.StartsWith("#"))
+                    {
+                        UpdateUserState(xid, UserState.InHall);
+                    }
+                }
+
+                lock (RoomCollection[roomId].locker)
+                {
+                    RoomCollection[roomId].PlayerList = new List<string>();
+                    RoomCollection[roomId].RoomState = RoomState.Closed;
+                }
+            }
+            catch (Exception e)
+            {
+                return;
+            }
         }
         #endregion RoomCRUD
     }

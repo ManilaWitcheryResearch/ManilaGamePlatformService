@@ -42,7 +42,7 @@
                 {
                     if (string.IsNullOrEmpty((string)Session["Token"]))
                     {
-                        return Response.AsJson(new { result = "Failed", errorMsg = "Not Signed In" });
+                        return Response.AsJson(new { result = "Failed", errorMsg = "NotAuthenicated" });
                     }
                     var res = GamePlatform.DataAccess.CloseUserSession((string)Session["Token"]);
                     this.Session["UserId"] = null;

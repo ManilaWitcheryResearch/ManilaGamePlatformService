@@ -11,6 +11,8 @@
     {
         Open = 0,
         InGame = 1,
+        PreOpen = 2,
+        Closed = 3
     }
 
     public class RoomModel
@@ -21,11 +23,15 @@
         public List<string> PlayerList { get; set; } // list by userid
         public string Password { get; set; }
         public int RoundWaitTime { get; set; }
+        public int PlayerCount { get; set; }
         public int PlayerUpperBound { get; set; }
         public int PlayerLowerBound { get; set; }
         public RoomState RoomState { get; set; }
+        public string OwnerId { get; set; }
+        public object locker = new object();
 
-        // TODO: implement a convert to public version model (in da)
+        // TODO: owner, custom_player_amount
+        // TODO: bind U/L bound to gametype
     }
 
     [DataContract]
@@ -43,11 +49,15 @@
         public bool HavePassword { get; set; }
         [DataMember(Name = "roundWaitTime")]
         public int RoundWaitTime { get; set; }
+        [DataMember(Name = "playerCount")]
+        public int PlayerCount { get; set; }
         [DataMember(Name = "playerUpperBound")]
         public int PlayerUpperBound { get; set; }
         [DataMember(Name = "playerLowerBound")]
         public int PlayerLowerBound { get; set; }
         [DataMember(Name = "roomState")]
         public int RoomState { get; set; }
+        [DataMember(Name = "ownerId")]
+        public string OwnerId { get; set; }
     }
 }

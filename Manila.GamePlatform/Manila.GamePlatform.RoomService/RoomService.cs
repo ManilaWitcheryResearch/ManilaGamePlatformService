@@ -28,6 +28,7 @@ namespace Manila.GamePlatform.RoomService
             }
             wssv = new WebSocketServer(listening);
             wssv.Start();
+            wssv.AddWebSocketService<Chat>("/Chat");
         }
 
         public void Stop()
