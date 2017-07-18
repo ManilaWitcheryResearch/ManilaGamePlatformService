@@ -18,7 +18,7 @@
                 try
                 {
                     var res = GamePlatform.DataAccess.RefreshAllRoomInfo();
-                    return Response.AsJson(new { result = "Success", roomList = res});
+                    return Response.AsJson(new { result = "Success", roomList = JsonConvert.SerializeObject(res) });
                 }
                 catch (Exception e)
                 {
@@ -33,16 +33,14 @@
 
                 try
                 {
-                    var res = GamePlatform.DataAccess.CreateUserSession((string)request["userId"]);
-                    if (res.Key == "Success")
+                    var res = GamePlatform.DataAccess.CreateRoom(currentUser.UserId);
+                    if (!string.IsNullOrEmpty(res))
                     {
-                        this.Session["UserId"] = res.Value.UserId;
-                        this.Session["Token"] = res.Value.Token;
-                        return Response.AsJson(new { result = "Success", displayName = res.Value.DisplayName, token = res.Value.Token });
+                        return Response.AsJson(new { result = "Success", roomId = res});
                     }
                     else
                     {
-                        return Response.AsJson(new { result = "Failed" });
+                        return Response.AsJson(new { result = "Failed", errorMsg = "RequestRoomPermission Failed" });
                     }
                 }
                 catch (Exception e)
@@ -58,16 +56,14 @@
 
                 try
                 {
-                    var res = GamePlatform.DataAccess.CreateUserSession((string)request["userId"]);
-                    if (res.Key == "Success")
+                    var res = GamePlatform.DataAccess.RequestRoomPermission(currentUser.UserId, (string)request["roomId"], (string)request["passwd"]);
+                    if (res)
                     {
-                        this.Session["UserId"] = res.Value.UserId;
-                        this.Session["Token"] = res.Value.Token;
-                        return Response.AsJson(new { result = "Success", displayName = res.Value.DisplayName, token = res.Value.Token });
+                        return Response.AsJson(new { result = "Success", roomId = (string)request["roomId"] });
                     }
                     else
                     {
-                        return Response.AsJson(new { result = "Failed" });
+                        return Response.AsJson(new { result = "Failed", errorMsg = "RequestRoomPermission Failed" });
                     }
                 }
                 catch (Exception e)

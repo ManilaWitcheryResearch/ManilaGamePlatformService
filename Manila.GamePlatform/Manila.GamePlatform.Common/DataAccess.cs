@@ -237,6 +237,29 @@ namespace Manila.GamePlatform.Common
                 return;
             }
         }
+
+        public void WssInitRoom(string roomId)
+        {
+            try
+            {
+                RoomCollection[roomId].PlayerList = Enumerable.Repeat("#0", RoomCollection[roomId].PlayerCount).ToList();
+                RoomCollection[roomId].RoomState = RoomState.Open;
+            }
+            catch (Exception e)
+            {
+                ;
+            }
+        }
+
+        public void WssPlayerJoinRoom()
+        {
+            ;
+        }
+
+        public void WssPlayerExitRoom()
+        {
+            ;
+        }
         #endregion RoomCRUD
     }
 }
